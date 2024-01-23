@@ -139,10 +139,14 @@ import { Image } from "astro:assets";
 
   function allImagesLoadedCallback() {
     loadDiv.textContent = `${totalImagesCount}`;
-    loadDiv?.classList.add('loading-hidden')
-    setTimeout(()=>{
-      loadDiv.style.display = 'none'
-    },1000)
+    loadDiv?.animate([], {});
+    loadDiv?.classList.add("loading-hidden");
+    images.forEach((image) => {
+      image.removeEventListener("load",incrementLoadedImagesCount);
+    });
+    setTimeout(() => {  
+      loadDiv.style.display = "none";
+    }, 1000);
     // add Transtion 动画
     // loadDiv.style.display = "none"; // 如果你想隐藏加载提示，取消注释这行代码
   }
@@ -155,14 +159,8 @@ import { Image } from "astro:assets";
       incrementLoadedImagesCount();
       console.log("Image already loaded: 🤦‍♂️");
     } else {
-      img.addEventListener("load", () => {
-        incrementLoadedImagesCount();
-        console.log("Image loaded: 🤦‍♂️");
-      });
-      img.addEventListener("error", () => {
-        console.error("An image failed to load:", img.src);
-        incrementLoadedImagesCount(); // Even on error, increment count
-      });
+      img.addEventListener("load", incrementLoadedImagesCount);
+      img.addEventListener("error", incrementLoadedImagesCount);
     }
   });
 </script>
