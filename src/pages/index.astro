@@ -3,7 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import InfiniteScrollingBackground from "../components/InfiniteScrollingBackground.astro";
 import { ImageEnum } from "../types/imagePaths";
-const arr = new Array(100000);
 ---
 
 <Layout title="Welcome to Astro.">
@@ -26,12 +25,11 @@ const arr = new Array(100000);
     >
       {
         Object.values(ImageEnum)
-          .filter((src) => isNaN(src)).reverse()
-          .map((src, idx) => (
+          .filter((src) => typeof src !== "number")
+          .reverse()
+          .map((src) => (
             <div style={{ paddingRight: "20vh", zIndex: 1000 }}>
-              <Card imagePath={src} key={idx} style={{
-
-              }}/>
+              <Card imagePath={src as ImageEnum} />
             </div>
           ))
       }

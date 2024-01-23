@@ -12,8 +12,11 @@ export class InfiniteScrollingBackground {
       this.ctx = this.canvas.getContext('2d')!;
       this.image = new Image();
       this.image.src = imagePath;
+      this.imageWidth = 0;
+      this.imageHeight = 0;
   
       this.image.onload = () => {
+        this.imageWidth = this.image.width;
         this.imageWidth = this.image.width;
         this.imageHeight = this.image.height;
         this.updateCanvasSize();

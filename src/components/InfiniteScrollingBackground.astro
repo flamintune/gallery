@@ -54,8 +54,7 @@
     ctx.textBaseline = "top"; // 设置文本基线
     ctx?.fillText(item, x, y);
   }
-  function drawAll(x, idx) {
-    const endX = 22 * fruits.length - 1 * vh - x;
+  function drawAll(x:number, idx:number) {
     for (let i = 0; i < 5; i++) {
       for (let j = 0; j < fruits.length; j++) {
         drawOne(
@@ -75,7 +74,7 @@
 
   const scrollBg = document.querySelector("#scrollBg") as HTMLDivElement;
   console.log(scrollBg);
-  scrollBg.addEventListener("scroll", (e) => {
+  scrollBg.addEventListener("scroll", () => {
     const scrolledPixels = scrollBg.scrollLeft * 0.01;
     let x = (scrolledPixels % 22) * vh;
     const totalLength = fruits.length * 22;
