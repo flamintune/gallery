@@ -75,11 +75,10 @@
   const scrollBg = document.querySelector("#scrollBg") as HTMLDivElement;
   console.log(scrollBg);
   scrollBg.addEventListener("scroll", () => {
-    const scrolledPixels = scrollBg.scrollLeft * 0.01;
+    const scrolledPixels = scrollBg.scrollLeft * 0.05;
     let x = (scrolledPixels % 22) * vh;
     const totalLength = fruits.length * 22;
     const count = Math.floor((scrolledPixels % totalLength) / 22);
-
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     requestAnimationFrame(() => {
       drawAll(x, count);

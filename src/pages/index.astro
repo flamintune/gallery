@@ -3,10 +3,10 @@ import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import InfiniteScrollingBackground from "../components/InfiniteScrollingBackground.astro";
 import { ImageEnum, pictures } from "../types/imagePaths";
+import { Image } from "astro:assets";
 ---
 
 <Layout title="Welcome to Astro.">
-  <!-- todo 实现背景滚动 -->
   <div class="frame">
     <div class="frame_line" data-line-1></div>
     <div class="frame_line" data-line-2></div>
@@ -24,18 +24,29 @@ import { ImageEnum, pictures } from "../types/imagePaths";
       }}
     >
       {
-          pictures.reverse().map((src) => (
-          <div style={{ paddingRight: "20vh", zIndex: 1000 }}>
-            <Card imagePath={src} />
+        pictures.reverse().map((src) => (
+          <div style={{ paddingRight: "20vh", zIndex: 3 }}>
+            <Image src={src} class="card" alt="哦豁" loading={"eager"} />
           </div>
         ))
       }
     </div>
   </div>
   <InfiniteScrollingBackground />
+  <div class="loading"></div>
 </Layout>
 
 <style>
+  .card {
+    height: 40vh;
+    width: fit-content;
+    widows: auto;
+    object-fit: contain;
+    /* opacity: 0; */
+    border: 4px solid black;
+    border-radius: 20px;
+    display: block;
+  }
   #scrollBg::-webkit-scrollbar {
     display: none;
   }
@@ -84,4 +95,74 @@ import { ImageEnum, pictures } from "../types/imagePaths";
     height: 100%;
     will-change: transform;
   }
+  .loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: black;
+    height: 100%;
+    width: 100%;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    color: white;
+    opacity: 1;
+    transition: opacity 1s ease-in-out; /* 2秒的淡出动画 */
+  }
+  .loading-hidden {
+    opacity: 0;
+  }
 </style>
+
+<script type="module">
+  console.log("hello");
+  const images = document.querySelectorAll("img");
+  const loadDiv = document.querySelector(".loading");
+  console.log(images.length);
+
+  let _loadedImagesCount = 0; // 私有变量，不直接修改
+  const totalImagesCount = images.length;
+
+  function updateLoadingStatus() {
+    loadDiv.textContent = `${_loadedImagesCount}/${totalImagesCount}`;
+    if (_loadedImagesCount === totalImagesCount) {
+      allImagesLoadedCallback();
+    }
+  }
+
+  function incrementLoadedImagesCount() {
+    _loadedImagesCount++;
+    updateLoadingStatus();
+  }
+
+  function allImagesLoadedCallback() {
+    loadDiv.textContent = `${totalImagesCount}`;
+    loadDiv?.classList.add('loading-hidden')
+    setTimeout(()=>{
+      loadDiv.style.display = 'none'
+    },1000)
+    // add Transtion 动画
+    // loadDiv.style.display = "none"; // 如果你想隐藏加载提示，取消注释这行代码
+  }
+
+  // 初始化加载状态
+  updateLoadingStatus();
+
+  images.forEach((img) => {
+    if (img.complete) {
+      incrementLoadedImagesCount();
+      console.log("Image already loaded: 🤦‍♂️");
+    } else {
+      img.addEventListener("load", () => {
+        incrementLoadedImagesCount();
+        console.log("Image loaded: 🤦‍♂️");
+      });
+      img.addEventListener("error", () => {
+        console.error("An image failed to load:", img.src);
+        incrementLoadedImagesCount(); // Even on error, increment count
+      });
+    }
+  });
+</script>
