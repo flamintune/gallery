@@ -3,22 +3,22 @@ import type { ImageMetadata } from "astro";
 import type { ImageEnum } from "../types/imagePaths";
 import { Image } from "astro:assets";
 interface Props {
-  imagePath: ImageEnum;
+  imagePath: ImageMetadata;
   altText?: string;
 }
 
 const { imagePath, altText = "哦豁没加载出来" } = Astro.props;
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/*.{jpeg,jpg,png,gif}"
-);
-if (!images[imagePath])
-  throw new Error(
-    `"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif}"`
-  );
+// const images = import.meta.glob<{ default: ImageMetadata }>(
+//   "/src/assets/*.{jpeg,jpg,png,gif}"
+// );
+// if (!images[imagePath])
+//   throw new Error(
+//     `"${imagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif}"`
+//   );
 ---
 
 <div>
-  <Image src={images[imagePath]()} alt={altText} class="card" />
+  <Image src={imagePath} alt={altText} class="card" />
 </div>
 
 <style>
