@@ -36,7 +36,12 @@
     "🍑",
     "🍒",
     "🍓",
+    "🥝",
+    "🍅",
+    "🥥",
   ];
+  const random = Math.floor(Math.random() * fruits.length)
+
   const vh = window.innerHeight / 100;
   const vw = window.innerWidth / 100;
   const verticalLine = [0, 20 * vh, 40 * vh, 60 * vh, 80 * vh];
@@ -54,7 +59,7 @@
     for (let i = 0; i < 5; i++) {
       for (let j = 0; j < fruits.length; j++) {
         drawOne(
-          fruits[(j + idx + i * i) % fruits.length],
+          fruits[(j + idx + random + i * i * i) % fruits.length],
           22 * j * vh - x,
           4 * vh + verticalLine[i]
         );
