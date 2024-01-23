@@ -21,7 +21,22 @@
   // window.addEventListener('load', () => {
   //   new InfiniteScrollingBackground('scrollCanvas', '/favicon.svg');
   // });
-  const fruits = ["🍇", "🍈", "🍉", "🍊", "🍋", "🍋‍🟩", "🍌", "🍍"];
+  const fruits = [
+    "🍇",
+    "🍈",
+    "🍉",
+    "🍊",
+    "🍋",
+    "🍌",
+    "🍍",
+    "🥭",
+    "🍎",
+    "🍏",
+    "🍐",
+    "🍑",
+    "🍒",
+    "🍓",
+  ];
   const vh = window.innerHeight / 100;
   const vw = window.innerWidth / 100;
   const verticalLine = [0, 20 * vh, 40 * vh, 60 * vh, 80 * vh];
@@ -34,33 +49,36 @@
     ctx.textBaseline = "top"; // 设置文本基线
     ctx?.fillText(item, x, y);
   }
-  function drawRect(x, y) {
-    ctx?.fillRect(x, y, 15 * vh, 15 * vh);
-  }
-  function drawAll() {
+  function drawAll(x, idx) {
+    const endX = 22 * fruits.length - 1 * vh - x;
     for (let i = 0; i < 5; i++) {
-      fruits.forEach((item, idx) =>
-        drawOne(item, 22 * idx * vh, 4 * vh + verticalLine[i])
-      );
+      for (let j = 0; j < fruits.length; j++) {
+        drawOne(
+          fruits[(j + idx + i * i) % fruits.length],
+          22 * j * vh - x,
+          4 * vh + verticalLine[i]
+        );
+      }
     }
   }
-  for (let i = 0; i < 5; i++) {
-    fruits.forEach((item, idx) =>
-      drawRect(22 * idx * vh, 2.5 * vh + verticalLine[i])
-    );
-  }
+  // for (let i = 0; i < 5; i++) {
+  //   fruits.forEach((item, idx) =>
+  //     drawRect(10 + 22 * idx * vh, 2.5 * vh + verticalLine[i])
+  //   );
+  // }
+  drawAll(0, 0);
 
   const scrollBg = document.querySelector("#scrollBg") as HTMLDivElement;
   console.log(scrollBg);
   scrollBg.addEventListener("scroll", (e) => {
-    console.log("scroll", scrollBg.scrollLeft);
     const scrolledPixels = scrollBg.scrollLeft * 0.01;
-    const x = (scrolledPixels % 22) * vh;
+    let x = (scrolledPixels % 22) * vh;
+    const totalLength = fruits.length * 22;
+    const count = Math.floor((scrolledPixels % totalLength) / 22);
+
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    for (let i = 0; i < 5; i++) {
-      fruits.forEach((item, idx) =>
-        drawRect(22 * idx * vh-x, 2.5 * vh + verticalLine[i])
-      );
-    }
+    requestAnimationFrame(() => {
+      drawAll(x, count);
+    });
   });
 </script>
