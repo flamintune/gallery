@@ -1,0 +1,22 @@
+---
+// Import your images or use a CMS to fetch gallery data
+const images = [
+  { src: '/path/to/image1.jpg', alt: 'Description of image 1' },
+  { src: '/path/to/image2.jpg', alt: 'Description of image 2' },
+  // ... more images
+];
+---
+
+<html>
+  <head>
+    <title>Food Gallery</title>
+  </head>
+  <body>
+    <h1>Gallery</h1>
+    <div class="gallery">
+      {images.map((image) => (
+        <img src={image.src} alt={image.alt} />
+      ))}
+    </div>
+  </body>
+</html>
