@@ -55,7 +55,9 @@ const pos = [
                 marginTop: pos[idx % 3].marginTop + "vh",
                 height:
                   pos[idx % 3].heights[
-                    Math.floor(Math.random() * ((40 - pos[idx % 3].marginTop) / 20))
+                    Math.floor(
+                      Math.random() * ((40 - pos[idx % 3].marginTop) / 20)
+                    )
                   ],
               }}
             />
@@ -65,7 +67,11 @@ const pos = [
     </div>
   </div>
   <InfiniteScrollingBackground />
-  <div class="loading"></div>
+  <div class="loading">
+    <div></div>
+    <div>The Images are loading...</div>
+    <div>0/19</div>
+  </div>
 </Layout>
 
 <style>
@@ -133,32 +139,90 @@ const pos = [
     top: 0;
     background: black;
     height: 100%;
-    width: 100%;
+    width: 100vw;
     z-index: 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 100px;
     color: white;
     opacity: 1;
-    transition: opacity 1s ease-in-out; /* 2秒的淡出动画 */
+    transition: all 1s ease-in-out;
+    & > :nth-child(1) {
+      background-color: #fff;
+      height: 10vh;
+      transform-origin: 0 0;
+      transform: scaleX(0);
+    }
+    & > :nth-child(2) {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%);
+      font-size: 25px;
+    }
+    & > :nth-child(3) {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 50px;
+    }
   }
   .loading-hidden {
-    opacity: 0;
+    /* opacity: 0; */
+    transform: translateY(-100%);
   }
 </style>
 
 <script type="module">
-  console.log("hello");
   const images = document.querySelectorAll("img");
   const loadDiv = document.querySelector(".loading");
-  console.log(images.length);
+  const progressBar = loadDiv?.children[0];
+  const progressNumber = loadDiv?.children[2];
 
   let _loadedImagesCount = 0; // 私有变量，不直接修改
   const totalImagesCount = images.length;
+  function scrollAnimate(){
+  }
+
+  let curCount = 0;
+  function easeOutQuad(t) {
+    return -(Math.cos(Math.PI * t) - 1) / 2;
+  }
+  function setNewPercentage(count) {
+    curCount = count;
+    const duration = 500; // 动画持续时间为500毫秒
+    const start = performance.now(); // 动画开始时间
+    const prevPercentage = (count - 1) / totalImagesCount;
+    const newPercentage = count / totalImagesCount;
+    let id;
+    function animate(time) {
+      let timeFraction = (time - start) / duration;
+      if (timeFraction > 1) timeFraction = 1; // 确保时间分数不超过1
+      const easedTimeFraction = easeOutQuad(timeFraction);
+      const currentPercentage =
+        prevPercentage + (newPercentage - prevPercentage) * easedTimeFraction; // 计算当前百分比
+      console.log(currentPercentage);
+      progressBar.style.transform = `scaleX(${currentPercentage})`; // 应用当前百分比
+
+      if (count >= curCount && timeFraction < 1) {
+        requestAnimationFrame(animate); // 如果时间分数小于1，继续动画
+      }
+    }
+    console.log(
+      `---------start-------- ${count} from ${prevPercentage} to ${newPercentage}`
+    );
+    id = requestAnimationFrame(animate); // 开始动画
+    // cancelAnimationFrame(id)
+  }
 
   function updateLoadingStatus() {
-    loadDiv.textContent = `${_loadedImagesCount}/${totalImagesCount}`;
+    if (progressBar) {
+      const percentage = _loadedImagesCount / totalImagesCount;
+      setNewPercentage(_loadedImagesCount);
+    }
+    // 更新显示的文本进度
+    if (progressNumber) {
+      progressNumber.textContent = `${_loadedImagesCount}/${totalImagesCount}`;
+    }
+
+    // 检查是否所有图片都已加载
     if (_loadedImagesCount === totalImagesCount) {
       allImagesLoadedCallback();
     }
@@ -170,12 +234,13 @@ const pos = [
   }
 
   function allImagesLoadedCallback() {
-    loadDiv.textContent = `${totalImagesCount}`;
+    // loadDiv.textContent = `不吃西红柿🍅的画廊`;
     loadDiv?.animate([], {});
     loadDiv?.classList.add("loading-hidden");
     images.forEach((image) => {
       image.removeEventListener("load", incrementLoadedImagesCount);
     });
+    scrollAnimate()
     setTimeout(() => {
       loadDiv.style.display = "none";
     }, 1000);
