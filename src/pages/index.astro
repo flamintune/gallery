@@ -4,6 +4,20 @@ import Card from "../components/Card.astro";
 import InfiniteScrollingBackground from "../components/InfiniteScrollingBackground.astro";
 import { ImageEnum, pictures } from "../types/imagePaths";
 import { Image } from "astro:assets";
+const pos = [
+  {
+    marginTop: 0,
+    heights: ["20vh", "40vh", "60vh"],
+  },
+  {
+    marginTop: 20,
+    heights: ["20vh", "40vh"],
+  },
+  {
+    marginTop: 40,
+    heights: ["20vh"],
+  },
+];
 ---
 
 <Layout title="Welcome to Astro.">
@@ -23,10 +37,28 @@ import { Image } from "astro:assets";
         padding: "20vh 22vh",
       }}
     >
+      <!-- todo 20vh:top0-20-40vh 40vh:top-0-20 60vh -->
+      <!-- 
+    marginTop:0 height:20vh 40vh 60vh
+    marginTop:20 height:20vh 40vh
+    marginTop:40 height:20vh
+     -->
       {
-        pictures.reverse().map((src) => (
+        pictures.reverse().map((src, idx) => (
           <div style={{ paddingRight: "20vh", zIndex: 3 }}>
-            <Image src={src} class="card" alt="哦豁" loading={"eager"} />
+            <Image
+              src={src}
+              class="card"
+              alt="哦豁"
+              loading={"eager"}
+              style={{
+                marginTop: pos[idx % 3].marginTop + "vh",
+                height:
+                  pos[idx % 3].heights[
+                    Math.floor(Math.random() * ((40 - pos[idx % 3].marginTop) / 20))
+                  ],
+              }}
+            />
           </div>
         ))
       }
@@ -38,7 +70,7 @@ import { Image } from "astro:assets";
 
 <style>
   .card {
-    height: 40vh;
+    /* height: 40vh; */
     width: fit-content;
     widows: auto;
     object-fit: contain;
@@ -142,9 +174,9 @@ import { Image } from "astro:assets";
     loadDiv?.animate([], {});
     loadDiv?.classList.add("loading-hidden");
     images.forEach((image) => {
-      image.removeEventListener("load",incrementLoadedImagesCount);
+      image.removeEventListener("load", incrementLoadedImagesCount);
     });
-    setTimeout(() => {  
+    setTimeout(() => {
       loadDiv.style.display = "none";
     }, 1000);
     // add Transtion 动画
