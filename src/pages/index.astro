@@ -187,7 +187,7 @@ const pos = [
   }
   function setNewPercentage(count) {
     curCount = count;
-    const duration = 500; // 动画持续时间为500毫秒
+    const duration = 200; // 动画持续时间为500毫秒
     const start = performance.now(); // 动画开始时间
     const prevPercentage = (count - 1) / totalImagesCount;
     const newPercentage = count / totalImagesCount;
@@ -198,16 +198,12 @@ const pos = [
       const easedTimeFraction = easeOutQuad(timeFraction);
       const currentPercentage =
         prevPercentage + (newPercentage - prevPercentage) * easedTimeFraction; // 计算当前百分比
-      console.log(currentPercentage);
       progressBar.style.transform = `scaleX(${currentPercentage})`; // 应用当前百分比
 
       if (count >= curCount && timeFraction < 1) {
         requestAnimationFrame(animate); // 如果时间分数小于1，继续动画
       }
     }
-    console.log(
-      `---------start-------- ${count} from ${prevPercentage} to ${newPercentage}`
-    );
     id = requestAnimationFrame(animate); // 开始动画
     // cancelAnimationFrame(id)
   }
@@ -224,7 +220,7 @@ const pos = [
 
     // 检查是否所有图片都已加载
     if (_loadedImagesCount === totalImagesCount) {
-      allImagesLoadedCallback();
+      setTimeout(allImagesLoadedCallback,200)
     }
   }
 
