@@ -200,8 +200,7 @@ const pos = [
         requestAnimationFrame(animate); // 如果时间分数小于1，继续动画
       }
     }
-    id = requestAnimationFrame(animate); // 开始动画
-    // cancelAnimationFrame(id)
+    requestAnimationFrame(animate); // 开始动画
   }
 
   function updateLoadingStatus() {
