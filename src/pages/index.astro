@@ -178,8 +178,6 @@ const pos = [
 
   let _loadedImagesCount = 0; // 私有变量，不直接修改
   const totalImagesCount = images.length;
-  function scrollAnimate(){
-  }
 
   let curCount = 0;
   function easeOutQuad(t) {
@@ -236,7 +234,6 @@ const pos = [
     images.forEach((image) => {
       image.removeEventListener("load", incrementLoadedImagesCount);
     });
-    scrollAnimate()
     setTimeout(() => {
       loadDiv.style.display = "none";
     }, 1000);
