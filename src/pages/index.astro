@@ -1,8 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
 import InfiniteScrollingBackground from "../components/InfiniteScrollingBackground.astro";
-import { ImageEnum, pictures } from "../types/imagePaths";
+import { pictures } from "../types/imagePaths";
 import { Image } from "astro:assets";
 const pos = [
   {
@@ -189,7 +188,6 @@ const pos = [
     const start = performance.now(); // 动画开始时间
     const prevPercentage = (count - 1) / totalImagesCount;
     const newPercentage = count / totalImagesCount;
-    let id;
     function animate(time) {
       let timeFraction = (time - start) / duration;
       if (timeFraction > 1) timeFraction = 1; // 确保时间分数不超过1
@@ -208,7 +206,6 @@ const pos = [
 
   function updateLoadingStatus() {
     if (progressBar) {
-      const percentage = _loadedImagesCount / totalImagesCount;
       setNewPercentage(_loadedImagesCount);
     }
     // 更新显示的文本进度

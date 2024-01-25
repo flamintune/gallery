@@ -1,24 +1,4 @@
 export type ImagePath = '/src/assets/IMG_20240114_113348.jpg' | '/src/assets/IMG_20240114_120652.jpg' | '/src/assets/IMG_20240115_090727.jpg' | '/src/assets/IMG_20240115_122818.jpg' | '/src/assets/IMG_20240115_125004.jpg' | '/src/assets/IMG_20240116_091022.jpg' | '/src/assets/IMG_20240117_104934.jpg' | '/src/assets/IMG_20240117_120650.jpg' | '/src/assets/IMG_20240117_191557.jpg' | '/src/assets/IMG_20240118_090824.jpg' | '/src/assets/IMG_20240118_135544.jpg' | '/src/assets/IMG_20240118_175711.jpg' | '/src/assets/IMG_20240118_184528.jpg' | '/src/assets/IMG_20240119_125512.jpg' | '/src/assets/IMG_20240121_115813.jpg' | '/src/assets/IMG_20240122_121408.jpg' | '/src/assets/IMG_20240122_123346.jpg' | '/src/assets/IMG_20240122_190205.jpg' | '/src/assets/IMG_20240123_083327.jpg';
-export enum ImageEnum {'/src/assets/IMG_20240114_113348.jpg',
-'/src/assets/IMG_20240114_120652.jpg',
-'/src/assets/IMG_20240115_090727.jpg',
-'/src/assets/IMG_20240115_122818.jpg',
-'/src/assets/IMG_20240115_125004.jpg',
-'/src/assets/IMG_20240116_091022.jpg',
-'/src/assets/IMG_20240117_104934.jpg',
-'/src/assets/IMG_20240117_120650.jpg',
-'/src/assets/IMG_20240117_191557.jpg',
-'/src/assets/IMG_20240118_090824.jpg',
-'/src/assets/IMG_20240118_135544.jpg',
-'/src/assets/IMG_20240118_175711.jpg',
-'/src/assets/IMG_20240118_184528.jpg',
-'/src/assets/IMG_20240119_125512.jpg',
-'/src/assets/IMG_20240121_115813.jpg',
-'/src/assets/IMG_20240122_121408.jpg',
-'/src/assets/IMG_20240122_123346.jpg',
-'/src/assets/IMG_20240122_190205.jpg',
-'/src/assets/IMG_20240123_083327.jpg'
-  }
 import p0 from "/src/assets/IMG_20240114_113348.jpg"
 import p1 from "/src/assets/IMG_20240114_120652.jpg"
 import p2 from "/src/assets/IMG_20240115_090727.jpg"
